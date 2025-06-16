@@ -11,10 +11,9 @@ readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
 dependencies = [
-  # "requests>=2.30",
-  # "numpy>=1.25",
-  # Example of a local wheel (must be absolute and exist):
-  # "private-package @ file:///absolute/path/to/wheels/private_package-0.1.0-py3-none-any.whl"
+  "requests>=2.30",
+  "numpy>=1.25"
+  # "private-pkg @ file:///absolute/path/to/local/package.whl"
 ]
 
 [project.optional-dependencies]
@@ -27,16 +26,14 @@ lint-tools = ["flake8", "black", "ruff"]
 test-tools = ["pytest", "pytest-cov"]
 documentation = ["mkdocs"]
 
-[tool.pdm]
-# No src/ layout: use root directory
-package-dir = { "" = "." }
+[tool.pdm.packages]
+my_package = "my_package"
 
 [[tool.pdm.source]]
 name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
-# Uncomment and update these if you have external package sources
 # [[tool.pdm.source]]
 # name = "local-packages"
 # url = "file:///absolute/path/to/local_packages/"
@@ -52,6 +49,5 @@ respect-source-order = true
 allow-prereleases = false
 
 [project.scripts]
-# CLI names in kebab-case
-# my-tool = "my_package.cli:main"
-# another-tool = "my_package.scripts.another:entry_point"
+my-tool = "my_package.cli:main"
+another-tool = "my_package.scripts.another:entry_point"
