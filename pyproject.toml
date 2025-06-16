@@ -1,0 +1,56 @@
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
+
+[project]
+name = "my_package"
+version = "0.1.0"
+description = "One‑liner overview of your project"
+authors = [ { name = "Your Name", email = "you@example.com" } ]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+  "requests>=2.30",
+  "numpy>=1.25"
+]
+
+[project.optional-dependencies]
+# Use `pdm install --group lint`
+lint = ["flake8", "black", "ruff"]
+test = ["pytest", "pytest-cov"]
+docs = ["mkdocs"]
+
+[tool.pdm.dev-dependencies]
+lint-tools = ["flake8", "black", "ruff"]
+test-tools = ["pytest", "pytest-cov"]
+documentation = ["mkdocs"]
+
+[tool.pdm]
+# Automatically discover packages under src/
+package-dir = {"" = "src"}
+
+[[tool.pdm.source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+# HTTP directory or local source outside PyPI
+[[tool.pdm.source]]
+name = "findlocal"
+url = "file:///path/to/local/packages/"
+type = "find_links"
+
+[[tool.pdm.source]]
+name = "findhttp"
+url = "https://example.com/packages/"
+type = "find_links"
+
+[tool.pdm.resolution]
+# respect the declared order of sources
+respect-source-order = true
+allow-prereleases = false
+
+[project.scripts]
+# Adds a console entry point via `pdm run mycli`
+mycli = "my_project.cli:main"
