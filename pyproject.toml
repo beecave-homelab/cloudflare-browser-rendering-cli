@@ -3,17 +3,19 @@ requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"
 
 [project]
-name = "my-project"
+name = "cloudflare-render"
 version = "0.1.0"
-description = "Minimal PDM boilerplate with flat layout"
+description = "Interactive CLI for Cloudflare Browser Rendering API"
 authors = [{ name = "Your Name", email = "you@example.com" }]
 readme = "README.md"
 license = { text = "MIT" }
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
-  "requests>=2.30",
-  "numpy>=1.25"
-  # "private-pkg @ file:///absolute/path/to/local/package.whl"
+  "click",
+  "questionary",
+  "rich",
+  "httpx",
+  "python-dotenv",
 ]
 
 [project.optional-dependencies]
@@ -21,33 +23,17 @@ lint = ["flake8", "black", "ruff"]
 test = ["pytest", "pytest-cov"]
 docs = ["mkdocs"]
 
-[tool.pdm.dev-dependencies]
-lint-tools = ["flake8", "black", "ruff"]
-test-tools = ["pytest", "pytest-cov"]
-documentation = ["mkdocs"]
-
 [tool.pdm.packages]
-my_package = "my_package"
+cloudflare_browser_render = "cloudflare_browser_render"
 
 [[tool.pdm.source]]
 name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
-# [[tool.pdm.source]]
-# name = "local-packages"
-# url = "file:///absolute/path/to/local_packages/"
-# type = "find_links"
-
-# [[tool.pdm.source]]
-# name = "http-packages"
-# url = "https://example.com/packages/"
-# type = "find_links"
-
 [tool.pdm.resolution]
 respect-source-order = true
 allow-prereleases = false
 
 [project.scripts]
-my-tool = "my_package.cli:main"
-another-tool = "my_package.scripts.another:entry_point"
+cloudflare-render = "cloudflare_browser_render.cli:cli"
