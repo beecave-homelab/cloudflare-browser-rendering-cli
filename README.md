@@ -4,7 +4,7 @@ A collection of Python best practices, coding standards, and example files demon
 
 ## Versions
 
-**Current version**: 1.0.0
+**Current version**: 1.0.1
 
 ## Table of Contents
 
@@ -44,11 +44,11 @@ This repository contains three main components:
    ├── docs/
    ├── tests/
    │   └── __init__.py
-   ├── src/
+   ├── package_name/
    │   └── __init__.py
    ├── README.md
    ├── requirements.txt
-   └── setup.py
+   └── pyproject.toml
    ```
 
 ## Usage
