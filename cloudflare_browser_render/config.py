@@ -1,4 +1,5 @@
 """Configuration for Cloudflare Browser Rendering CLI."""
+
 import os
 from dotenv import load_dotenv
 

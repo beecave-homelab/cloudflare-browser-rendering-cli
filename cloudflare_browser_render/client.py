@@ -1,4 +1,5 @@
 """HTTP client for Cloudflare Browser Rendering API."""
+
 from typing import Dict, Any
 import httpx
 from .config import get_api_token

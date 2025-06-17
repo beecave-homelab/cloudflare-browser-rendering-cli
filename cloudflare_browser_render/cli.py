@@ -1,4 +1,5 @@
 """Command line interface for Cloudflare Browser Rendering API."""
+
 import click
 import questionary
 from rich.console import Console
@@ -71,3 +72,7 @@ def cli() -> None:
             console.print(result)
     else:
         print_json(result)
+
+
+if __name__ == "__main__":
+    cli()
