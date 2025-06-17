@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-lint = ["flake8", "black", "ruff"]
+lint = ["black", "ruff"]
 test = ["pytest", "pytest-cov"]
 docs = ["mkdocs"]
 
