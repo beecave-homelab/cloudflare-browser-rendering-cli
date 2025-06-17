@@ -164,3 +164,4 @@ cython_debug/
 pdm.lock
 
 .cursor/rules/*.mdc
+.github/PULL_REQUEST/*.md
