@@ -1,4 +1,5 @@
 """Renderer modules mapping."""
+
 from .content import render_content
 from .screenshot import render_screenshot
 from .pdf import render_pdf

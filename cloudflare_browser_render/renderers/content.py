@@ -1,4 +1,5 @@
 """Content endpoint renderer."""
+
 from ..client import call_api
 
 
