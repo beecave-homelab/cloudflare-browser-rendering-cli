@@ -18,7 +18,7 @@ from typing import List, Dict, Any
 
 # Constants
 # [Use the Right Data Structures: Store Unique Values with Sets]
-SUPPORTED_OPERATIONS = {'add', 'remove', 'list', 'count'}
+SUPPORTED_OPERATIONS = {"add", "remove", "list", "count"}
 
 
 # [Write Object-Oriented Code]
@@ -108,9 +108,11 @@ class TaskManager:
             word.lower() for task in self.tasks for word in task.split()
         ).most_common(1)
         return {
-            'total_tasks': len(self.tasks),
-            'average_length': sum(task_lengths) / len(task_lengths) if task_lengths else 0,
-            'most_common_word': most_common_word[0][0] if most_common_word else None
+            "total_tasks": len(self.tasks),
+            "average_length": (
+                sum(task_lengths) / len(task_lengths) if task_lengths else 0
+            ),
+            "most_common_word": most_common_word[0][0] if most_common_word else None,
         }
 
 
@@ -135,11 +137,13 @@ def parse_arguments(args: List[str]) -> Dict[str, Any]:
 
     operation = args[1].lower()
     if operation not in SUPPORTED_OPERATIONS:
-        print(f"Error: Unsupported operation '{operation}'. Supported operations are: {', '.join(SUPPORTED_OPERATIONS)}.")
+        print(
+            f"Error: Unsupported operation '{operation}'. Supported operations are: {', '.join(SUPPORTED_OPERATIONS)}."
+        )
         sys.exit(1)
 
-    task = ' '.join(args[2:]) if len(args) > 2 else None
-    return {'operation': operation, 'task': task}
+    task = " ".join(args[2:]) if len(args) > 2 else None
+    return {"operation": operation, "task": task}
 
 
 # [Write Readable and Maintainable Code: Main Function]
@@ -153,23 +157,23 @@ def main():
     args = parse_arguments(sys.argv)
     manager = TaskManager()
 
-    operation = args['operation']
-    task = args['task']
+    operation = args["operation"]
+    task = args["task"]
 
     try:
-        if operation == 'add':
+        if operation == "add":
             if not task:
                 print("Error: No task provided to add.")
                 sys.exit(1)
             manager.add_task(task)
-        elif operation == 'remove':
+        elif operation == "remove":
             if not task:
                 print("Error: No task provided to remove.")
                 sys.exit(1)
             manager.remove_task(task)
-        elif operation == 'list':
+        elif operation == "list":
             manager.list_tasks()
-        elif operation == 'count':
+        elif operation == "count":
             if not task:
                 print("Error: No keyword provided to count.")
                 sys.exit(1)
@@ -183,10 +187,10 @@ def main():
     stats = manager.get_task_statistics()
     print(f"Total tasks: {stats['total_tasks']}")
     print(f"Average task length: {stats['average_length']:.2f} characters")
-    if stats['most_common_word']:
+    if stats["most_common_word"]:
         print(f"Most common word in tasks: {stats['most_common_word']}")
 
 
 # [Main Guard: Ensures script runs only when executed directly]
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
