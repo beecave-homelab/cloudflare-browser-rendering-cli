@@ -11,7 +11,7 @@ This project provides an interactive Command Line Interface (CLI) and a Python c
 
 [![Language](https://img.shields.io/badge/Python-3.11+-blue)](https://www.python.org)
 [![Version](https://img.shields.io/badge/Version-0.1.0-brightgreen)](#version-summary)
-[![Dependencies](https://img.shields.io/badge/Dependencies-click%2C%20questionary%2C%20rich%2C%20httpx%2C%20python--dotenv-orange)](pyproject.toml)
+[![Dependencies](https://img.shields.io/badge/Dependencies-click%2C%20questionary%2C%20rich%2C%20cloudflare%2C%20httpx%2C%20python--dotenv-orange)]
 
 ## Table of Contents
 
@@ -68,7 +68,7 @@ The CLI and client support the following rendering operations:
 ├── cloudflare_browser_render/ # Main Python package
 │   ├── __init__.py
 │   ├── cli.py                 # Interactive CLI (Click)
-│   ├── client.py              # HTTP client for the API (httpx)
+│   ├── client.py              # Cloudflare SDK client singleton
 │   ├── config.py              # Configuration loader (dotenv)
 │   ├── renderers/             # Modules for each API endpoint
 │   │   ├── __init__.py
@@ -81,6 +81,9 @@ The CLI and client support the following rendering operations:
 │   │   ├── screenshot.py
 │   │   └── snapshot.py
 │   └── utils.py               # Utility functions
+├── scripts/                  # Helper scripts for manual verification
+│   ├── manual_verification.sh
+│   └── manual_verification.py
 ├── docs/                      # Project documentation
 ├── LICENSE
 ├── pyproject.toml             # Project metadata and dependencies (PDM)
@@ -98,21 +101,55 @@ The CLI and client support the following rendering operations:
 - **Layered Structure**: The application is split into a CLI layer (`cli.py`), a business logic layer (`renderers/`), and an API communication layer (`client.py`).
 - **Configuration**: Application configuration, like the API token, is loaded from environment variables or a `.env` file via `config.py`.
 - **Extensibility**: Each API endpoint is handled by its own module in the `renderers` directory, making it easy to add or modify endpoints.
-- **HTTP Client**: Uses `httpx` for sending synchronous POST requests to the Cloudflare API.
+- **SDK Client**: Uses the official `cloudflare` Python SDK for all Browser Rendering requests (typed, robust TLS, built-in retries).
 
 ## API
 
-The core API interaction is handled by the `call_api` function in `cloudflare_browser_render/client.py`.
+API calls are made through a lazily-initialised **Cloudflare SDK client** returned by `get_client()`.
 
-- `call_api(endpoint: str, payload: Dict[str, Any]) -> httpx.Response`: Sends a signed POST request to the specified API `endpoint` with the given `payload`. It automatically handles adding the `Authorization` header.
+Key helpers:
+
+| Helper | Purpose |
+|--------|---------|
+| `get_client()` | Instantiates a singleton `Cloudflare` client using the API token from `config.py`. |
+| `call_with_retry(func)` | Executes an SDK call with automatic exponential back-off on `RateLimitError`. |
 
 ## CLI
 
-The project includes an interactive CLI, accessible via the `cloudflare-render` command.
+The project exposes a **subcommand-driven** CLI via the `cloudflare-render` entry-point.  Usage follows the pattern:
 
-- **Interactive Mode**: It prompts the user to select an API endpoint and provide a target URL.
-- **Endpoint Coverage**: All available renderers are exposed as choices.
-- **Output Handling**: Can print results directly to the console or save them to a file, depending on the content type (text vs. bytes).
+```bash
+# general pattern
+cloudflare-render <subcommand> URL [options]
+
+# examples
+cloudflare-render content https://example.com
+cloudflare-render screenshot https://example.com -o screenshot.png
+cloudflare-render scrape https://example.com "h1.title" -o heading.json
+```
+
+Available subcommands (one per Browser Rendering API endpoint):
+
+| Subcommand | Description | Typical Output |
+|------------|-------------|----------------|
+| `content` | Render raw text content | UTF-8 text |
+| `screenshot` | Capture a PNG screenshot | `bytes` (PNG) |
+| `pdf` | Generate a PDF snapshot | `bytes` (PDF) |
+| `snapshot` | Create a durable snapshot (metadata) | JSON |
+| `scrape` | Scrape using a CSS selector | JSON |
+| `json` | Full page render as structured JSON | JSON |
+| `links` | Extract all links | JSON |
+| `markdown` | Convert page to Markdown | UTF-8 text |
+
+Global behaviour:
+
+- `-o/--output FILE` — If supplied, writes the response to `FILE`; otherwise, text/JSON is printed and binary data triggers a warning prompting the user to save.
+- `--debug` — show full Python tracebacks instead of concise error messages (helpful while developing).
+- Exit status is **0** on success; non-zero on failure. Without `--debug`, errors are wrapped in a clean `click.ClickException`.
+
+### Interactive Mode
+
+Running `cloudflare-render` **without arguments** launches an interactive Questionary menu identical to the original behaviour.  This provides a quick, guided workflow for ad-hoc usage.
 
 ## Code Quality
 
@@ -140,11 +177,11 @@ pdm run black . && pdm run ruff check .
 > **Tip:** Use `ruff --fix` to auto-apply safe fixes, and configure editors to run `black` on save.
 
 ## CI/CD
->
+
 > No CI/CD pipelines are configured for this project.
 
 ## Docker
->
+
 > No Docker configuration is present in this project.
 
 ## Tests
