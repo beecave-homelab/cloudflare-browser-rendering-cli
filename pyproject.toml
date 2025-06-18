@@ -4,7 +4,7 @@ build-backend = "pdm.pep517.api"
 
 [project]
 name = "cloudflare-render"
-version = "0.1.0"
+version = "0.2.0"
 description = "Interactive CLI for Cloudflare Browser Rendering API"
 authors = [{ name = "Your Name", email = "you@example.com" }]
 readme = "README.md"
