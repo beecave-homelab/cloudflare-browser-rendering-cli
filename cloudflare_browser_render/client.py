@@ -1,17 +1,30 @@
 """HTTP client for Cloudflare Browser Rendering API."""
 
-from typing import Dict, Any
-import httpx
+from typing import Optional
+
+from cloudflare import Cloudflare  # type: ignore
+
 from .config import get_api_token
 
-BASE_URL = "https://api.browser.render.workers.dev"
+# ---------------------------------------------------------------------------
+# New SDK-based Client (preferred)
+# ---------------------------------------------------------------------------
 
 
-def call_api(endpoint: str, payload: Dict[str, Any]) -> httpx.Response:
-    """Send POST request to a Browser Rendering API endpoint."""
-    token = get_api_token()
-    url = f"{BASE_URL}{endpoint}"
-    headers = {"Authorization": f"Bearer {token}"}
-    response = httpx.post(url, json=payload, headers=headers)
-    response.raise_for_status()
-    return response
+# Internal singleton instance – created lazily.
+_cf_client: Optional[Cloudflare] = None
+
+
+def get_client() -> Cloudflare:
+    """Return a lazily-instantiated singleton Cloudflare SDK client.
+
+    The instance is created on first call using the API token loaded from the
+    environment (via :func:`config.get_api_token`). The Cloudflare SDK handles
+    TLS verification, retries, and other concerns internally, so no extra
+    configuration is necessary here.
+    """
+
+    global _cf_client
+    if _cf_client is None:
+        _cf_client = Cloudflare(api_token=get_api_token())
+    return _cf_client
