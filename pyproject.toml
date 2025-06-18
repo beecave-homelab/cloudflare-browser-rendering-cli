@@ -9,13 +9,14 @@ description = "Interactive CLI for Cloudflare Browser Rendering API"
 authors = [{ name = "Your Name", email = "you@example.com" }]
 readme = "README.md"
 license = { text = "MIT" }
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.13"
 dependencies = [
   "click",
   "questionary",
   "rich",
   "httpx",
   "python-dotenv",
+  "cloudflare>=4.3",
 ]
 
 [project.optional-dependencies]
