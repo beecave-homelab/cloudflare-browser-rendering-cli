@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""scripts/manual_verification.py
+"""scripts/manual_verification.py.
 
 Automated wrapper for manual CLI verification using Python.
 Loads environment variables from a .env file via python-dotenv and then
@@ -15,6 +15,7 @@ Example:
     # Ensure .env contains CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID
     pdm install
     python scripts/manual_verification.py https://example.com "h1.title"
+
 """
 
 from __future__ import annotations
@@ -52,6 +53,7 @@ def run_command(cmd: list[str]) -> None:
 
 
 def main() -> None:
+    """Run all CLI subcommands against *url* for manual verification."""
     ensure_env()
 
     url: str = sys.argv[1] if len(sys.argv) > 1 else "https://example.com"
