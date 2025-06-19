@@ -9,6 +9,7 @@ _account_id = get_account_id()
 
 
 def render_snapshot(url: str) -> dict:
+    """Create a durable snapshot of *url* and return metadata."""
     raw = call_with_retry(
         lambda: _cf.browser_rendering.snapshot.with_raw_response.create(
             account_id=_account_id, url=url

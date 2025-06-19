@@ -9,6 +9,7 @@ _account_id = get_account_id()
 
 
 def render_content(url: str) -> str:
+    """Return the raw text content of *url*."""
     raw = call_with_retry(
         lambda: _cf.browser_rendering.content.with_raw_response.create(
             account_id=_account_id, url=url

@@ -9,6 +9,7 @@ _account_id = get_account_id()
 
 
 def render_markdown(url: str) -> str:
+    """Convert *url* content to Markdown text."""
     raw = call_with_retry(
         lambda: _cf.browser_rendering.markdown.with_raw_response.create(
             account_id=_account_id, url=url
