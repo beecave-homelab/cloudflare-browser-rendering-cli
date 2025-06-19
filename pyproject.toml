@@ -38,3 +38,6 @@ allow-prereleases = false
 
 [project.scripts]
 cloudflare-render = "cloudflare_browser_render.cli:cli"
+cloudflare-browser-render = "cloudflare_browser_render.cli:cli"
+cloudflare-browser-rendering = "cloudflare_browser_render.cli:cli"
+cbr = "cloudflare_browser_render.cli:cli"
