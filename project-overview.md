@@ -35,7 +35,7 @@ pdm install -G dev
 # Set your Cloudflare API token in a .env file or as an environment variable
 export CLOUDFLARE_API_TOKEN="your-api-token"
 # Run the interactive CLI
-pdm run cloudflare-render
+pdm run cloudflare-render  # or simply: cbr
 ```
 
 > *Prefer PDM; alternatively, use `pip install .` then run `cloudflare-render`.*
@@ -117,7 +117,7 @@ Key helpers:
 
 ## CLI
 
-The project exposes a **subcommand-driven** CLI via the `cloudflare-render` entry-point.  Usage follows the pattern:
+The project exposes a **subcommand-driven** CLI that can be invoked as `cloudflare-render` (preferred), its short alias `cbr`, or the longer aliases `cloudflare-browser-render` / `cloudflare-browser-rendering`.  Usage follows the pattern:
 
 ```bash
 # general pattern
