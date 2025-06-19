@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-lint = ["black", "ruff"]
+lint = ["ruff"]
 test = ["pytest", "pytest-cov"]
 docs = ["mkdocs"]
 
