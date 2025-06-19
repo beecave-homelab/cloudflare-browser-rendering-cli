@@ -23,7 +23,6 @@ def get_client() -> Cloudflare:
     TLS verification, retries, and other concerns internally, so no extra
     configuration is necessary here.
     """
-
     global _cf_client
     if _cf_client is None:
         _cf_client = Cloudflare(api_token=get_api_token())

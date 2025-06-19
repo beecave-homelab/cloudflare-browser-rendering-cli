@@ -19,6 +19,7 @@ console = Console()
 
 
 def save_bytes(data: bytes, filename: str) -> Path:
+    """Write *data* (bytes) to *filename* and return the resulting Path."""
     path = Path(filename)
     path.write_bytes(data)
     console.print(f"[green]Saved file to {path}[/green]")
@@ -26,6 +27,7 @@ def save_bytes(data: bytes, filename: str) -> Path:
 
 
 def save_text(data: str, filename: str) -> Path:
+    """Write UTF-8 *data* to *filename* and return the resulting Path."""
     path = Path(filename)
     path.write_text(data)
     console.print(f"[green]Saved file to {path}[/green]")
@@ -33,6 +35,7 @@ def save_text(data: str, filename: str) -> Path:
 
 
 def print_json(data: Any) -> None:
+    """Pretty-print *data* as JSON using Rich's coloured output."""
     console.print_json(json.dumps(data))
 
 
@@ -60,8 +63,8 @@ def call_with_retry(
     -------
     T
         The return value of *func*.
-    """
 
+    """
     delay = base_delay
     for attempt in range(max_retries):
         try:

@@ -6,9 +6,16 @@ import click
 import questionary
 from rich.console import Console
 
-from .renderers import (render_content, render_json, render_links,
-                        render_markdown, render_pdf, render_scrape,
-                        render_screenshot, render_snapshot)
+from .renderers import (
+    render_content,
+    render_json,
+    render_links,
+    render_markdown,
+    render_pdf,
+    render_scrape,
+    render_screenshot,
+    render_snapshot,
+)
 from .utils import print_json, save_bytes, save_text
 
 console = Console()
@@ -33,7 +40,6 @@ def _process_result(result, output: str | None) -> None:
     will be printed to the terminal. Binary data will warn the user if no
     filename was provided.
     """
-
     if output:
         if isinstance(result, bytes):
             save_bytes(result, output)
@@ -74,7 +80,6 @@ def cli(ctx: click.Context, debug: bool) -> None:
     Run with **--help** to see all available subcommands. If no subcommand is
     supplied, an interactive menu will be presented.
     """
-
     global _DEBUG
     _DEBUG = debug
 
@@ -97,7 +102,6 @@ def cli(ctx: click.Context, debug: bool) -> None:
 )
 def content(url: str, output: str | None) -> None:  # noqa: D401
     """Render raw **content** for *URL*."""
-
     try:
         result = render_content(url)
     except Exception as exc:
@@ -116,6 +120,7 @@ def content(url: str, output: str | None) -> None:  # noqa: D401
     help="Save PNG to FILE.",
 )
 def screenshot(url: str, output: str | None) -> None:
+    """Capture a PNG screenshot of *url*."""
     try:
         result = render_screenshot(url)
     except Exception as exc:
@@ -134,6 +139,7 @@ def screenshot(url: str, output: str | None) -> None:
     help="Save PDF to FILE.",
 )
 def pdf(url: str, output: str | None) -> None:
+    """Generate a PDF from *url*."""
     try:
         result = render_pdf(url)
     except Exception as exc:
@@ -147,6 +153,7 @@ def pdf(url: str, output: str | None) -> None:
 @click.argument("url")
 @click.option("-o", "--output", type=click.Path(dir_okay=False, writable=True))
 def snapshot(url: str, output: str | None) -> None:
+    """Create a durable snapshot of *url* and return its metadata."""
     try:
         result = render_snapshot(url)
     except Exception as exc:
@@ -161,6 +168,7 @@ def snapshot(url: str, output: str | None) -> None:
 @click.argument("selector")
 @click.option("-o", "--output", type=click.Path(dir_okay=False, writable=True))
 def scrape(url: str, selector: str, output: str | None) -> None:
+    """Scrape *selector* from *url* and return structured JSON."""
     try:
         result = render_scrape(url, selector)
     except Exception as exc:
@@ -174,6 +182,7 @@ def scrape(url: str, selector: str, output: str | None) -> None:
 @click.argument("url")
 @click.option("-o", "--output", type=click.Path(dir_okay=False, writable=True))
 def json_(url: str, output: str | None) -> None:  # name json_ to avoid keyword clash
+    """Render *url* into browser-generated JSON."""
     try:
         result = render_json(url)
     except Exception as exc:
@@ -187,6 +196,7 @@ def json_(url: str, output: str | None) -> None:  # name json_ to avoid keyword 
 @click.argument("url")
 @click.option("-o", "--output", type=click.Path(dir_okay=False, writable=True))
 def links(url: str, output: str | None) -> None:
+    """Extract all links from *url*."""
     try:
         result = render_links(url)
     except Exception as exc:
@@ -200,6 +210,7 @@ def links(url: str, output: str | None) -> None:
 @click.argument("url")
 @click.option("-o", "--output", type=click.Path(dir_okay=False, writable=True))
 def markdown(url: str, output: str | None) -> None:  # noqa: D401
+    """Convert *url* content to Markdown."""
     try:
         result = render_markdown(url)
     except Exception as exc:
@@ -216,7 +227,6 @@ def markdown(url: str, output: str | None) -> None:  # noqa: D401
 
 def _interactive_flow() -> None:
     """Replicates the original interactive Questionary workflow."""
-
     endpoint = questionary.select(
         "Which endpoint do you want to use?",
         choices=[
