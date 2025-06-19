@@ -67,7 +67,6 @@ class _EndpointStub:
 @pytest.fixture()
 def stub_client(monkeypatch):
     """Replace each renderer module's `_cf` singleton with a predictable stub."""
-
     # Mapping: endpoint name → value factory used by the renderer tests.
     endpoint_payloads: dict[str, Callable[[], Any]] = {
         "content": lambda: "stub-content",
@@ -113,7 +112,6 @@ def stub_client(monkeypatch):
 
 def _run_cli(runner: CliRunner, *args: str):
     """Invoke CLI and assert success."""
-
     result = runner.invoke(cli_group, list(args))
     assert result.exit_code == 0, result.output
 
@@ -133,5 +131,6 @@ def _run_cli(runner: CliRunner, *args: str):
     ],
 )
 def test_cli_smoke(args):
+    """Run each CLI subcommand with stubbed client and assert success."""
     runner = CliRunner()
     _run_cli(runner, *args)
