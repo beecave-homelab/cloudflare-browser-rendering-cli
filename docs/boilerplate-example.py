@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-boilerplate-example.py
+"""boilerplate-example.py.
 
 A sample Python script demonstrating best practices for readability, maintainability,
 and efficiency, following PEP8 guidelines and leveraging Python's advanced features.
@@ -27,11 +26,11 @@ class TaskManager:
 
     # [Follow Style Guidelines: Type Hints and Default Values]
     def __init__(self, tasks: List[str] = None):
-        """
-        Initialize the TaskManager with an optional list of tasks.
+        """Initialize the TaskManager with an optional list of tasks.
 
         Args:
             tasks (List[str], optional): Initial list of tasks. Defaults to None.
+
         """
         # [Use Default Values in Dictionaries with .get() and .setdefault()]
         self.tasks = tasks if tasks is not None else []
@@ -39,11 +38,11 @@ class TaskManager:
     # [Use the Right Data Structures: List for ordered tasks]
     # [Format Strings with f-Strings]
     def add_task(self, task: str) -> None:
-        """
-        Add a new task to the task list.
+        """Add a new task to the task list.
 
         Args:
             task (str): The task description to add.
+
         """
         self.tasks.append(task)
         print(f"Task added: {task}")
@@ -52,14 +51,14 @@ class TaskManager:
     # [Format Strings with f-Strings]
     # [Debugging and Error Handling: Do Not Suppress Exceptions]
     def remove_task(self, task: str) -> None:
-        """
-        Remove a task from the task list.
+        """Remove a task from the task list.
 
         Args:
             task (str): The task description to remove.
 
         Raises:
             ValueError: If the task is not found in the list.
+
         """
         try:
             self.tasks.remove(task)
@@ -81,14 +80,14 @@ class TaskManager:
 
     # [Use List Comprehensions Instead of Raw For-Loops]
     def count_tasks_by_keyword(self, keyword: str) -> int:
-        """
-        Count the number of tasks containing a specific keyword.
+        """Count the number of tasks containing a specific keyword.
 
         Args:
             keyword (str): The keyword to search for in tasks.
 
         Returns:
             int: The count of tasks containing the keyword.
+
         """
         return sum(1 for task in self.tasks if keyword.lower() in task.lower())
 
@@ -97,11 +96,11 @@ class TaskManager:
     # [Avoid Division by Zero]
     # [Use Conditional Expressions]
     def get_task_statistics(self) -> Dict[str, Any]:
-        """
-        Get statistics about the current tasks.
+        """Get statistics about the current tasks.
 
         Returns:
             Dict[str, Any]: A dictionary containing task statistics.
+
         """
         task_lengths = [len(task) for task in self.tasks]
         most_common_word = Counter(
@@ -122,14 +121,14 @@ class TaskManager:
 # [Debugging and Error Handling: Correct Broken Code Immediately]
 # [Use Conditional Expressions]
 def parse_arguments(args: List[str]) -> Dict[str, Any]:
-    """
-    Parse command-line arguments.
+    """Parse command-line arguments.
 
     Args:
         args (List[str]): The list of command-line arguments.
 
     Returns:
         Dict[str, Any]: A dictionary of parsed arguments.
+
     """
     if len(args) < 2:
         print("Usage: python example.py [add|remove|list|count] [task]")
@@ -153,7 +152,7 @@ def parse_arguments(args: List[str]) -> Dict[str, Any]:
 # [Format Strings with f-Strings]
 # [Debugging and Error Handling: Specific Exceptions]
 def main():
-    """Main function to execute the TaskManager based on command-line arguments."""
+    """Execute the TaskManager based on command-line arguments."""
     args = parse_arguments(sys.argv)
     manager = TaskManager()
 

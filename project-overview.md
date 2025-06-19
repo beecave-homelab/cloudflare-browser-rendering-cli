@@ -154,13 +154,27 @@ Running `cloudflare-render` **without arguments** launches an interactive Questi
 
 ## Code Quality
 
-Maintain code consistency and catch issues early using the configured linting and formatting tools.
+Maintain code consistency and catch issues early using the configured linting and formatting tools. We adhere to `PEP 257` (Docstring Conventions) and `PEP 8` (Style Guide for Python Code) via `Ruff`.
+
+### Docstring Rules (Pydocstyle - D-series)
+
+We enforce comprehensive docstring coverage and formatting for all public modules, functions, and classes to ensure code readability and maintainability. Key rules include:
+
+| Rule Code | Description |
+|---|---|
+| `D100` | Missing docstring in public module |
+| `D103` | Missing docstring in public function or method |
+| `D104` | Missing docstring in public package |
+| `D400` | First line should end with a period |
+| `D401` | First line of docstring should be in imperative mood |
+| `D415` | First line should end with a period, question mark, or exclamation point |
+
+### Tools
 
 | Tool | Purpose | Typical Command |
 |------|---------|-----------------|
-| **black** | Opinionated auto-formatter | `pdm run black .` |
 | **ruff** | Fast linter & fixer (replaces flake8 + isort) | `pdm run ruff check .` |
-| **ruff format** | Ruff's formatter (alternate to black) | `pdm run ruff format .` |
+| **ruff format** | Fast formatter (Black-compatible) | `pdm run ruff format .` |
 
 Install the dev extras group first:
 
@@ -172,7 +186,7 @@ Run all checks at once:
 
 ```bash
 # format and then lint
-pdm run black . && pdm run ruff check .
+pdm run ruff format . && pdm run ruff check .
 ```
 
 > **Tip:** Use `ruff --fix` to auto-apply safe fixes, and configure editors to run `black` on save.
