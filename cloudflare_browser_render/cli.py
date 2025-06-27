@@ -167,10 +167,16 @@ def snapshot(url: str, output: str | None) -> None:
 @click.argument("url")
 @click.argument("selector")
 @click.option("-o", "--output", type=click.Path(dir_okay=False, writable=True))
-def scrape(url: str, selector: str, output: str | None) -> None:
+@click.option(
+    "-e",
+    "--expression",
+    type=str,
+    help="Run a Javascript expression on the matched element(s).",
+)
+def scrape(url: str, selector: str, output: str | None, expression: str | None) -> None:
     """Scrape *selector* from *url* and return structured JSON."""
     try:
-        result = render_scrape(url, selector)
+        result = render_scrape(url, selector, expression)
     except Exception as exc:
         if _DEBUG:
             raise
@@ -250,7 +256,7 @@ def _interactive_flow() -> None:
     # Handle scrape separately because it needs an extra arg.
     if endpoint == "scrape":
         selector = questionary.text("CSS selector:").ask()
-        result = render_scrape(url, selector)
+        result = render_scrape(url, selector)  # No expression here
         _process_result(result, None)
         return
 
@@ -270,4 +276,4 @@ def _interactive_flow() -> None:
 
 
 if __name__ == "__main__":
-    cli()
+    cli()  # pylint: disable=no-value-for-parameter
