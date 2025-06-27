@@ -166,3 +166,5 @@ pdm.lock
 .cursor/rules/*.mdc
 .github/PULL_REQUEST/*.md
 nedap-support-docs-links.md
+all-nedap-links-20250620131514.md
+all-nedap-links.md
