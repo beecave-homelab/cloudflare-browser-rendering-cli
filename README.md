@@ -4,7 +4,7 @@ A fast, friendly command-line tool for Cloudflare's Browser Rendering API. Captu
 
 ## Versions
 
-**Current version**: 0.2.0 – Cloudflare SDK integration, new CLI flags, improved docs & tests.
+**Current version**: 0.2.1 – Code quality improvements, comprehensive docstring coverage, linting enhancements.
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ A fast, friendly command-line tool for Cloudflare's Browser Rendering API. Captu
 ## Badges
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue)](https://www.python.org)
-[![Version](https://img.shields.io/badge/Version-0.2.0-brightgreen)](#versions)
+[![Version](https://img.shields.io/badge/Version-0.2.1-brightgreen)](#versions)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](#license)
 
 ## Installation

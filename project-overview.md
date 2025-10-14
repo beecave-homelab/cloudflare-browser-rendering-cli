@@ -10,7 +10,7 @@ generated: 2025-06-17T21:05:00Z
 This project provides an interactive Command Line Interface (CLI) and a Python client for interacting with the Cloudflare Browser Rendering API.
 
 [![Language](https://img.shields.io/badge/Python-3.11+-blue)](https://www.python.org)
-[![Version](https://img.shields.io/badge/Version-0.2.0-brightgreen)](#version-summary)
+[![Version](https://img.shields.io/badge/Version-0.2.1-brightgreen)](#version-summary)
 [![Dependencies](https://img.shields.io/badge/Dependencies-click%2C%20questionary%2C%20rich%2C%20cloudflare%2C%20httpx%2C%20python--dotenv-orange)]
 
 ## Table of Contents
@@ -46,6 +46,7 @@ pdm run cloudflare-render  # or simply: cbr
 |---|---|---|----|
 | v0.1.0  | 2025-06-17 | feat ✨   | Initial release of the CLI and API client. |
 | v0.2.0  | 2025-06-18 | feat ✨   | Cloudflare SDK integration, new CLI flags, docs & tests. |
+| v0.2.1  | 2025-10-14 | fix 🐛    | Code quality improvements, docstring enhancements, linting fixes. |
 
 ## Project Features
 
