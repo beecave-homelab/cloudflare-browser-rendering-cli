@@ -1,7 +1,5 @@
 """HTTP client for Cloudflare Browser Rendering API."""
 
-from typing import Optional
-
 from cloudflare import Cloudflare  # type: ignore
 
 from .config import get_api_token
@@ -12,7 +10,7 @@ from .config import get_api_token
 
 
 # Internal singleton instance – created lazily.
-_cf_client: Optional[Cloudflare] = None
+_cf_client: Cloudflare | None = None
 
 
 def get_client() -> Cloudflare:

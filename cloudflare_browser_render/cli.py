@@ -51,11 +51,11 @@ def _process_result(result, output: str | None) -> None:
 
     # No output path provided — print to console.
     if isinstance(result, bytes):
-        console.print(
-            "[yellow]Binary data received ({} bytes). Use --output to save it.".format(
-                len(result)
-            )
+        msg = (
+            f"[yellow]Binary data received ({len(result)} bytes). "
+            "Use --output to save it."
         )
+        console.print(msg)
     elif isinstance(result, str):
         console.print(result)
     else:
@@ -101,7 +101,12 @@ def cli(ctx: click.Context, debug: bool) -> None:
     "-o", "--output", "output", type=click.Path(dir_okay=False, writable=True)
 )
 def content(url: str, output: str | None) -> None:  # noqa: D401
-    """Render raw **content** for *URL*."""
+    """Render raw **content** for *URL*.
+
+    Raises:
+        ClickException: If rendering fails.
+
+    """
     try:
         result = render_content(url)
     except Exception as exc:
@@ -120,7 +125,12 @@ def content(url: str, output: str | None) -> None:  # noqa: D401
     help="Save PNG to FILE.",
 )
 def screenshot(url: str, output: str | None) -> None:
-    """Capture a PNG screenshot of *url*."""
+    """Capture a PNG screenshot of *url*.
+
+    Raises:
+        ClickException: If screenshot capture fails.
+
+    """
     try:
         result = render_screenshot(url)
     except Exception as exc:
@@ -139,7 +149,12 @@ def screenshot(url: str, output: str | None) -> None:
     help="Save PDF to FILE.",
 )
 def pdf(url: str, output: str | None) -> None:
-    """Generate a PDF from *url*."""
+    """Generate a PDF from *url*.
+
+    Raises:
+        ClickException: If PDF generation fails.
+
+    """
     try:
         result = render_pdf(url)
     except Exception as exc:
@@ -153,7 +168,12 @@ def pdf(url: str, output: str | None) -> None:
 @click.argument("url")
 @click.option("-o", "--output", type=click.Path(dir_okay=False, writable=True))
 def snapshot(url: str, output: str | None) -> None:
-    """Create a durable snapshot of *url* and return its metadata."""
+    """Create a durable snapshot of *url* and return its metadata.
+
+    Raises:
+        ClickException: If snapshot creation fails.
+
+    """
     try:
         result = render_snapshot(url)
     except Exception as exc:
@@ -174,7 +194,12 @@ def snapshot(url: str, output: str | None) -> None:
     help="Run a Javascript expression on the matched element(s).",
 )
 def scrape(url: str, selector: str, output: str | None, expression: str | None) -> None:
-    """Scrape *selector* from *url* and return structured JSON."""
+    """Scrape *selector* from *url* and return structured JSON.
+
+    Raises:
+        ClickException: If scraping fails.
+
+    """
     try:
         result = render_scrape(url, selector, expression)
     except Exception as exc:
@@ -188,7 +213,12 @@ def scrape(url: str, selector: str, output: str | None, expression: str | None) 
 @click.argument("url")
 @click.option("-o", "--output", type=click.Path(dir_okay=False, writable=True))
 def json_(url: str, output: str | None) -> None:  # name json_ to avoid keyword clash
-    """Render *url* into browser-generated JSON."""
+    """Render *url* into browser-generated JSON.
+
+    Raises:
+        ClickException: If JSON rendering fails.
+
+    """
     try:
         result = render_json(url)
     except Exception as exc:
@@ -202,7 +232,12 @@ def json_(url: str, output: str | None) -> None:  # name json_ to avoid keyword 
 @click.argument("url")
 @click.option("-o", "--output", type=click.Path(dir_okay=False, writable=True))
 def links(url: str, output: str | None) -> None:
-    """Extract all links from *url*."""
+    """Extract all links from *url*.
+
+    Raises:
+        ClickException: If link extraction fails.
+
+    """
     try:
         result = render_links(url)
     except Exception as exc:
@@ -216,7 +251,12 @@ def links(url: str, output: str | None) -> None:
 @click.argument("url")
 @click.option("-o", "--output", type=click.Path(dir_okay=False, writable=True))
 def markdown(url: str, output: str | None) -> None:  # noqa: D401
-    """Convert *url* content to Markdown."""
+    """Convert *url* content to Markdown.
+
+    Raises:
+        ClickException: If Markdown conversion fails.
+
+    """
     try:
         result = render_markdown(url)
     except Exception as exc:

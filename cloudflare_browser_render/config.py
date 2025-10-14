@@ -11,7 +11,15 @@ ACCOUNT_ID_ENV = "CLOUDFLARE_ACCOUNT_ID"
 
 
 def get_api_token() -> str:
-    """Retrieve API token from environment variables."""
+    """Retrieve API token from environment variables.
+
+    Returns:
+        The Cloudflare API token.
+
+    Raises:
+        RuntimeError: If the API token is not found in environment variables.
+
+    """
     token = os.getenv(API_TOKEN_ENV)
     if not token:
         raise RuntimeError(f"{API_TOKEN_ENV} not found in environment or .env file")
@@ -19,7 +27,15 @@ def get_api_token() -> str:
 
 
 def get_account_id() -> str:
-    """Retrieve Cloudflare Account ID from environment variables."""
+    """Retrieve Cloudflare Account ID from environment variables.
+
+    Returns:
+        The Cloudflare Account ID.
+
+    Raises:
+        RuntimeError: If the Account ID is not found in environment variables.
+
+    """
     account_id = os.getenv(ACCOUNT_ID_ENV)
     if not account_id:
         raise RuntimeError(f"{ACCOUNT_ID_ENV} not found in environment or .env file")

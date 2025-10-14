@@ -1,15 +1,20 @@
 """JSON endpoint renderer."""
 
-from ..client import get_client
-from ..config import get_account_id
-from ..utils import call_with_retry
+from cloudflare_browser_render.client import get_client
+from cloudflare_browser_render.config import get_account_id
+from cloudflare_browser_render.utils import call_with_retry
 
 _cf = get_client()
 _account_id = get_account_id()
 
 
 def render_json(url: str) -> dict:
-    """Render *url* into structured JSON data."""
+    """Render *url* into structured JSON data.
+
+    Returns:
+        Structured JSON data extracted from the webpage.
+
+    """
     # The JSON endpoint requires either a `prompt` or a `response_format`.
     # We use an extremely permissive JSON schema as a sensible default so
     # that users can still fetch structured data without having to supply
