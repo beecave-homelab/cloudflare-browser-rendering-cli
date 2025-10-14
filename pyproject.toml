@@ -22,9 +22,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-lint = ["ruff", "pylint"]
-test = ["pytest", "pytest-cov"]
 docs = ["mkdocs-material"]
+
+[tool.pdm.dev-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "pytest-cov>=4.1.0",
+  "ruff>=0.6.9",
+]
 
 [tool.pdm.packages]
 cloudflare_browser_render = "cloudflare_browser_render"
@@ -33,6 +38,9 @@ cloudflare_browser_render = "cloudflare_browser_render"
 name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
+
+[tool.pdm]
+installer = "uv"
 
 [tool.pdm.resolution]
 respect-source-order = true
@@ -43,3 +51,52 @@ cloudflare-render = "cloudflare_browser_render.cli:cli"
 cloudflare-browser-render = "cloudflare_browser_render.cli:cli"
 cloudflare-browser-rendering = "cloudflare_browser_render.cli:cli"
 cbr = "cloudflare_browser_render.cli:cli"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+preview = true
+
+[tool.ruff.lint]
+# Enable rule categories per AGENTS.md
+select = [
+  "F",    # Pyflakes - correctness
+  "E",    # pycodestyle errors - PEP 8 surface
+  "W",    # pycodestyle warnings - PEP 8 surface
+  "N",    # pep8-naming - naming conventions
+  "I",    # isort - import order & style
+  "D",    # pydocstyle - docstring content & style
+  "DOC",  # pydoclint - docstring validation
+  "TID",  # flake8-tidy-imports - import hygiene
+  "UP",   # pyupgrade - modern Python upgrades
+  "FA",   # flake8-future-annotations - future annotations
+]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+  "D100",  # Missing docstring in public module
+  "D103",  # Missing docstring in public function
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+known-first-party = ["cloudflare_browser_render"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = [
+  "-q",
+  "--maxfail=1",
+  "--strict-markers",
+  "--cov=.",
+  "--cov-report=term-missing:skip-covered",
+  "--cov-report=xml"
+]
+
+testpaths = ["tests"]
+xfail_strict = true
+pythonpath = ["."]
+
