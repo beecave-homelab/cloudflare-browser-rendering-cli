@@ -168,3 +168,6 @@ pdm.lock
 nedap-support-docs-links.md
 all-nedap-links-20250620131514.md
 all-nedap-links.md
+output/**
+!output/.gitkeep
+
