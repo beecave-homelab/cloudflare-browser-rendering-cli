@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""
+"""Fetch og:description meta tags by parsing HTML directly.
+
 This script fetches the `og:description` meta tag from a list of URLs
 by directly downloading and parsing the HTML content of each page.
 It uses the `requests` and `BeautifulSoup` libraries.
@@ -9,7 +10,6 @@ import json
 import os
 import time
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
 
 import click
 import requests
@@ -22,23 +22,30 @@ DEFAULT_OUTPUT_FILE = "all-nedap-descriptions.json"
 
 # Set a user-agent to mimic a browser and avoid blocking
 REQUEST_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/91.0.4472.124 Safari/537.36"
+    )
 }
 
 
 def get_description_and_title(
     url: str, debug: bool = False
-) -> Tuple[Optional[str], Optional[str], str, List[Tuple[str, str]]]:
+) -> tuple[str | None, str | None, str, list[tuple[str, str]]]:
     """Fetch metadata from *url*.
 
-    Returns (title, description, status_message, debug_lines).
+    Returns:
+        Tuple of (title, description, status_message, debug_lines).
+
     """
-    debug_lines: List[Tuple[str, str]] = []
+    debug_lines: list[tuple[str, str]] = []
     try:
         response = requests.get(url, headers=REQUEST_HEADERS, timeout=15)
-        debug_lines.append(
-            (f"HTTP {response.status_code} – {len(response.content)} bytes", "blue")
-        )
+        debug_lines.append((
+            f"HTTP {response.status_code} – {len(response.content)} bytes",
+            "blue",
+        ))
         response.raise_for_status()
         soup = BeautifulSoup(response.content, "html.parser")
 
@@ -61,16 +68,13 @@ def get_description_and_title(
             title = title_el.text.strip() if title_el and title_el.text else None
 
         if debug:
-            debug_lines.append(
-                (f"Extracted title length: {len(title) if title else 0}", "cyan")
-            )
+            debug_lines.append((
+                f"Extracted title length: {len(title) if title else 0}",
+                "cyan",
+            ))
             debug_lines.append((f"Extracted title: {title}", "green"))
-            debug_lines.append(
-                (
-                    f"Extracted description length: {len(description) if description else 0}",
-                    "cyan",
-                )
-            )
+            desc_len = len(description) if description else 0
+            debug_lines.append((f"Extracted description length: {desc_len}", "cyan"))
             if description:
                 excerpt = (
                     description
@@ -111,10 +115,10 @@ def get_description_and_title(
 )
 def cli(input_file: str, dry_run: bool, debug: bool):
     """Main script execution."""
-    with open(input_file, "r", encoding="utf-8") as f:
+    with open(input_file, encoding="utf-8") as f:
         urls = [line.strip() for line in f if line.strip()]
 
-    all_docs: List[Dict[str, str]] = []
+    all_docs: list[dict[str, str]] = []
 
     click.echo(f"Collecting metadata from {len(urls)} URLs found in '{input_file}'...")
 
@@ -127,13 +131,11 @@ def cli(input_file: str, dry_run: bool, debug: bool):
             )
 
             if title or description:
-                all_docs.append(
-                    {
-                        "doc_url": url,
-                        "doc_title": title or "",
-                        "doc_description": description or "",
-                    }
-                )
+                all_docs.append({
+                    "doc_url": url,
+                    "doc_title": title or "",
+                    "doc_description": description or "",
+                })
                 click.secho(f"    -> ✅ {status}", fg="green", err=True)
             else:
                 click.secho(f"    -> ❌ {status}", fg="red", err=True)
@@ -147,7 +149,10 @@ def cli(input_file: str, dry_run: bool, debug: bool):
 
     click.echo("\nCollection complete.")
 
-    summary = f"Successfully extracted descriptions for {len(all_docs)} out of {len(urls)} URLs."
+    summary = (
+        f"Successfully extracted descriptions for {len(all_docs)} "
+        f"out of {len(urls)} URLs."
+    )
 
     if dry_run:
         click.echo(f"\nDRY RUN: {summary}")
@@ -162,9 +167,11 @@ def cli(input_file: str, dry_run: bool, debug: bool):
             timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
             base, ext = os.path.splitext(output_path)
             output_path = f"{base}-{timestamp}{ext}"
-            click.echo(
-                f"File '{DEFAULT_OUTPUT_FILE}' already exists. Saving to new file: '{output_path}'"
+            msg = (
+                f"File '{DEFAULT_OUTPUT_FILE}' already exists. "
+                f"Saving to new file: '{output_path}'"
             )
+            click.echo(msg)
 
         click.echo(f"\n{summary} Saving to {output_path}")
         with open(output_path, "w", encoding="utf-8") as f:

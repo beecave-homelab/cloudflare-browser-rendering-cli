@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""
+"""Fetch og:description meta tags from URLs.
+
 This script fetches the `og:description` meta tag from a list of URLs
 provided in a text file. It uses the `cbr` CLI via `pdm` to scrape
 the `content` attribute from the meta tag.
@@ -12,7 +13,6 @@ import subprocess
 import sys
 import time
 from datetime import datetime
-from typing import Dict, List, Optional
 
 # --- Configuration ---
 
@@ -22,8 +22,13 @@ DEFAULT_INPUT_FILE = "all-nedap-links-20250620131514.md"
 DEFAULT_OUTPUT_FILE = "all-nedap-descriptions.json"
 
 
-def run_command(url: str) -> Optional[str]:
-    """Runs `cbr scrape` command and returns the `og:description` content."""
+def run_command(url: str) -> str | None:
+    """Runs `cbr scrape` command and returns the `og:description` content.
+
+    Returns:
+        The og:description content if found, None otherwise.
+
+    """
     selector = "meta[property='og:description']"
     expression = "el => el.getAttribute('content')"
 
@@ -118,10 +123,10 @@ Examples:
         print(f"Error: Input file not found at '{args.input}'", file=sys.stderr)
         sys.exit(1)
 
-    with open(args.input, "r", encoding="utf-8") as f:
+    with open(args.input, encoding="utf-8") as f:
         urls = [line.strip() for line in f if line.strip()]
 
-    all_docs: List[Dict[str, str]] = []
+    all_docs: list[dict[str, str]] = []
 
     print(f"Collecting descriptions from {len(urls)} URLs found in '{args.input}'...")
     for i, url in enumerate(urls):
@@ -141,7 +146,10 @@ Examples:
 
     print("\nCollection complete.")
 
-    summary = f"Successfully extracted descriptions for {len(all_docs)} out of {len(urls)} URLs."
+    summary = (
+        f"Successfully extracted descriptions for {len(all_docs)} "
+        f"out of {len(urls)} URLs."
+    )
 
     if args.dry_run:
         print(f"\nDRY RUN: {summary}")
@@ -156,9 +164,11 @@ Examples:
             timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
             base, ext = os.path.splitext(output_path)
             output_path = f"{base}-{timestamp}{ext}"
-            print(
-                f"File '{DEFAULT_OUTPUT_FILE}' already exists. Saving to new file: '{output_path}'"
+            msg = (
+                f"File '{DEFAULT_OUTPUT_FILE}' already exists. "
+                f"Saving to new file: '{output_path}'"
             )
+            print(msg)
 
         print(f"\n{summary} Saving to {output_path}")
         with open(output_path, "w", encoding="utf-8") as f:

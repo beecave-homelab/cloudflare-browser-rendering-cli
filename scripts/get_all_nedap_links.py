@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""
+"""Fetch unique links from URLs and save to Markdown.
+
 This script fetches all unique links from a predefined list of URLs.
 It uses the `cbr` CLI via `pdm` to extract links from each page and
 compiles them into a single Markdown file, avoiding duplicates.
@@ -12,7 +13,6 @@ import subprocess
 import sys
 import time
 from datetime import datetime
-from typing import List, Set
 
 # --- Configuration ---
 
@@ -69,8 +69,13 @@ URLS = [
 ]
 
 
-def run_command(url: str) -> List[str]:
-    """Runs the `cbr links` command and returns a list of links."""
+def run_command(url: str) -> list[str]:
+    """Runs the `cbr links` command and returns a list of links.
+
+    Returns:
+        List of URLs found on the page.
+
+    """
     command = ["pdm", "run", "cbr", "links", url]
     try:
         process = subprocess.run(
@@ -101,7 +106,6 @@ def run_command(url: str) -> List[str]:
 
 def main():
     """Main script execution."""
-
     examples = """
 Examples:
   # Basic usage to fetch all links and save to a Markdown file
@@ -115,7 +119,9 @@ Examples:
 """
 
     parser = argparse.ArgumentParser(
-        description="Fetch unique links from a list of URLs and save to a Markdown file.",
+        description=(
+            "Fetch unique links from a list of URLs and save to a Markdown file."
+        ),
         epilog=examples,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -140,7 +146,7 @@ Examples:
     )
     args = parser.parse_args()
 
-    all_links: Set[str] = set()
+    all_links: set[str] = set()
     total_links_processed = 0
 
     print(f"Collecting links from {len(URLS)} URLs...")
@@ -189,9 +195,11 @@ Examples:
             timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
             base, ext = os.path.splitext(output_path)
             output_path = f"{base}-{timestamp}{ext}"
-            print(
-                f"File '{OUTPUT_FILE}' already exists. Saving to new file: '{output_path}'"
+            msg = (
+                f"File '{OUTPUT_FILE}' already exists. "
+                f"Saving to new file: '{output_path}'"
             )
+            print(msg)
 
         print(f"\n{summary} Saving to {output_path}...")
         with open(output_path, "w", encoding="utf-8") as f:
