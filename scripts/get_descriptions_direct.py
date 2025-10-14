@@ -113,7 +113,7 @@ def get_description_and_title(
     is_flag=True,
     help="Enable verbose debug output for each URL.",
 )
-def cli(input_file: str, dry_run: bool, debug: bool):
+def cli(input_file: str, dry_run: bool, debug: bool) -> None:
     """Main script execution."""
     with open(input_file, encoding="utf-8") as f:
         urls = [line.strip() for line in f if line.strip()]

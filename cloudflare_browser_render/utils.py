@@ -4,7 +4,7 @@ import json
 import time
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any, TypeVar
+from typing import TypeVar
 
 from rich.console import Console
 
@@ -45,7 +45,7 @@ def save_text(data: str, filename: str) -> Path:
     return path
 
 
-def print_json(data: Any) -> None:
+def print_json(data: dict | list) -> None:  # type: ignore[type-arg]
     """Pretty-print *data* as JSON using Rich's coloured output."""
     console.print_json(json.dumps(data))
 
