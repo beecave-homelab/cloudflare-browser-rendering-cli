@@ -10,7 +10,8 @@ Cloudflare API.
 from __future__ import annotations
 
 import types
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 import pytest
 from click.testing import CliRunner
@@ -80,14 +81,12 @@ def stub_client(monkeypatch):
     }
 
     # Build a browser_rendering namespace with dynamic attributes.
-    browser_rendering = types.SimpleNamespace(
-        **{
-            name: types.SimpleNamespace(
-                create=_EndpointStub(func).create, with_raw_response=_EndpointStub(func)
-            )
-            for name, func in endpoint_payloads.items()
-        }
-    )
+    browser_rendering = types.SimpleNamespace(**{
+        name: types.SimpleNamespace(
+            create=_EndpointStub(func).create, with_raw_response=_EndpointStub(func)
+        )
+        for name, func in endpoint_payloads.items()
+    })
 
     stub = types.SimpleNamespace(browser_rendering=browser_rendering)
 
@@ -133,4 +132,5 @@ def _run_cli(runner: CliRunner, *args: str):
 def test_cli_smoke(args):
     """Run each CLI subcommand with stubbed client and assert success."""
     runner = CliRunner()
-    _run_cli(runner, *args)
+    with runner.isolated_filesystem():
+        _run_cli(runner, *args)

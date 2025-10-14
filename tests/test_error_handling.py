@@ -7,8 +7,6 @@ traceback.
 
 from __future__ import annotations
 
-from typing import List, Tuple
-
 import pytest
 from click.testing import CliRunner
 
@@ -21,7 +19,7 @@ class DummyAPIError(Exception):
 
 
 # Endpoint definitions: (patch_target, args)
-ENDPOINTS: List[Tuple[str, List[str]]] = [
+ENDPOINTS: list[tuple[str, list[str]]] = [
     (
         "cloudflare_browser_render.renderers.content.render_content",
         ["content", "https://example.com"],
