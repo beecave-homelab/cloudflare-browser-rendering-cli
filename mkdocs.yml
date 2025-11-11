@@ -1,0 +1,8 @@
+site_name: Cloudflare Browser Rendering CLI
+
+nav:
+  - Home: index.md
+  - Project Overview: project-overview.md
+
+theme:
+  name: material 

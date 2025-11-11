@@ -1,0 +1,102 @@
+[project]
+name = "cloudflare-render"
+version = "0.2.1"
+description = "Interactive CLI for Cloudflare Browser Rendering API"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "click>=8.1.7",
+  "questionary>=2.0.1",
+  "rich>=13.7.1",
+  "cloudflare>=2.20.0",
+  "httpx>=0.27.0",
+  "python-dotenv>=1.0.1",
+  "requests>=2.32.3",
+  "beautifulsoup4>=4.12.3",
+]
+
+[project.optional-dependencies]
+docs = ["mkdocs-material"]
+
+[tool.pdm.dev-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "pytest-cov>=4.1.0",
+  "ruff>=0.6.9",
+]
+
+[tool.pdm.packages]
+cloudflare_browser_render = "cloudflare_browser_render"
+
+[[tool.pdm.source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
+
+[tool.pdm]
+installer = "uv"
+
+[tool.pdm.resolution]
+respect-source-order = true
+allow-prereleases = false
+
+[project.scripts]
+cloudflare-render = "cloudflare_browser_render.cli:cli"
+cloudflare-browser-render = "cloudflare_browser_render.cli:cli"
+cloudflare-browser-rendering = "cloudflare_browser_render.cli:cli"
+cbr = "cloudflare_browser_render.cli:cli"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+preview = true
+
+[tool.ruff.lint]
+# Enable rule categories per AGENTS.md
+select = [
+  "F",    # Pyflakes - correctness
+  "E",    # pycodestyle errors - PEP 8 surface
+  "W",    # pycodestyle warnings - PEP 8 surface
+  "N",    # pep8-naming - naming conventions
+  "I",    # isort - import order & style
+  "D",    # pydocstyle - docstring content & style
+  "DOC",  # pydoclint - docstring validation
+  "TID",  # flake8-tidy-imports - import hygiene
+  "UP",   # pyupgrade - modern Python upgrades
+  "FA",   # flake8-future-annotations - future annotations
+]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+  "D100",  # Missing docstring in public module
+  "D103",  # Missing docstring in public function
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+known-first-party = ["cloudflare_browser_render"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = [
+  "-q",
+  "--maxfail=1",
+  "--strict-markers",
+  "--cov=.",
+  "--cov-report=term-missing:skip-covered",
+  "--cov-report=xml"
+]
+
+testpaths = ["tests"]
+xfail_strict = true
+pythonpath = ["."]
+
