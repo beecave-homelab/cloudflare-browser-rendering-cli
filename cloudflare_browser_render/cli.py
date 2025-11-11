@@ -6,7 +6,7 @@ import click
 import questionary
 from rich.console import Console
 
-from .renderers import (
+from cloudflare_browser_render.renderers import (
     render_content,
     render_json,
     render_links,
@@ -16,7 +16,7 @@ from .renderers import (
     render_screenshot,
     render_snapshot,
 )
-from .utils import print_json, save_bytes, save_text
+from cloudflare_browser_render.utils import print_json, save_bytes, save_text
 
 console = Console()
 

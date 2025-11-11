@@ -2,7 +2,7 @@
 
 from cloudflare import Cloudflare  # type: ignore
 
-from .config import get_api_token
+from cloudflare_browser_render.config import get_api_token
 
 # ---------------------------------------------------------------------------
 # New SDK-based Client (preferred)

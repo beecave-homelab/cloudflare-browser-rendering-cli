@@ -1,13 +1,13 @@
 """Renderer modules mapping."""
 
-from .content import render_content
-from .json import render_json
-from .links import render_links
-from .markdown import render_markdown
-from .pdf import render_pdf
-from .scrape import render_scrape
-from .screenshot import render_screenshot
-from .snapshot import render_snapshot
+from cloudflare_browser_render.renderers.content import render_content
+from cloudflare_browser_render.renderers.json import render_json
+from cloudflare_browser_render.renderers.links import render_links
+from cloudflare_browser_render.renderers.markdown import render_markdown
+from cloudflare_browser_render.renderers.pdf import render_pdf
+from cloudflare_browser_render.renderers.scrape import render_scrape
+from cloudflare_browser_render.renderers.screenshot import render_screenshot
+from cloudflare_browser_render.renderers.snapshot import render_snapshot
 
 __all__ = [
     "render_content",
