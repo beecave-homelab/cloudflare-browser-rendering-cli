@@ -1,5 +1,7 @@
 """Utility helpers for CLI operations."""
 
+from __future__ import annotations
+
 import json
 import time
 from collections.abc import Callable
@@ -15,6 +17,15 @@ except ImportError:  # pragma: no cover – fallback for old SDKs
     RateLimitError = Exception  # type: ignore  # noqa: N816
 
 T = TypeVar("T")
+
+__all__ = [
+    "RateLimitError",
+    "call_with_retry",
+    "console",
+    "print_json",
+    "save_bytes",
+    "save_text",
+]
 
 console = Console()
 
