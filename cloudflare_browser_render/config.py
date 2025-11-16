@@ -1,10 +1,11 @@
 """Configuration for Cloudflare Browser Rendering CLI."""
 
-import os
+from __future__ import annotations
 
-from dotenv import load_dotenv
-
-load_dotenv()
+from cloudflare_browser_render.utils.constant import (
+    CLOUDFLARE_ACCOUNT_ID,
+    CLOUDFLARE_API_TOKEN,
+)
 
 API_TOKEN_ENV = "CLOUDFLARE_API_TOKEN"
 ACCOUNT_ID_ENV = "CLOUDFLARE_ACCOUNT_ID"
@@ -20,7 +21,7 @@ def get_api_token() -> str:
         RuntimeError: If the API token is not found in environment variables.
 
     """
-    token = os.getenv(API_TOKEN_ENV)
+    token = CLOUDFLARE_API_TOKEN
     if not token:
         raise RuntimeError(f"{API_TOKEN_ENV} not found in environment or .env file")
     return token
@@ -36,7 +37,7 @@ def get_account_id() -> str:
         RuntimeError: If the Account ID is not found in environment variables.
 
     """
-    account_id = os.getenv(ACCOUNT_ID_ENV)
+    account_id = CLOUDFLARE_ACCOUNT_ID
     if not account_id:
         raise RuntimeError(f"{ACCOUNT_ID_ENV} not found in environment or .env file")
     return account_id

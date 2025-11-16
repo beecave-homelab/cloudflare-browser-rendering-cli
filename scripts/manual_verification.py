@@ -1,8 +1,6 @@
-#!/usr/bin/env python3
-"""scripts/manual_verification.py.
+"""Automated wrapper for manual CLI verification using Python.
 
-Automated wrapper for manual CLI verification using Python.
-Loads environment variables from a .env file via python-dotenv and then
+Loads environment variables through the package constants module and then
 executes each `cloudflare-render` subcommand through PDM.
 
 Usage:
@@ -15,26 +13,30 @@ Example:
     # Ensure .env contains CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID
     pdm install
     python scripts/manual_verification.py https://example.com "h1.title"
-
 """
 
 from __future__ import annotations
 
-import os
 import subprocess
 import sys
 from pathlib import Path
 
-from dotenv import load_dotenv
+from cloudflare_browser_render.config import ACCOUNT_ID_ENV, API_TOKEN_ENV
+from cloudflare_browser_render.utils.constant import (
+    CLOUDFLARE_ACCOUNT_ID,
+    CLOUDFLARE_API_TOKEN,
+)
 
 
 def ensure_env() -> None:
-    """Load .env and validate required environment variables."""
+    """Validate required environment variables via the constants module."""
     env_path = Path.cwd() / ".env"
-    load_dotenv(dotenv_path=env_path if env_path.exists() else None)
 
-    required = ["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID"]
-    missing = [var for var in required if not os.getenv(var)]
+    required = {
+        API_TOKEN_ENV: CLOUDFLARE_API_TOKEN,
+        ACCOUNT_ID_ENV: CLOUDFLARE_ACCOUNT_ID,
+    }
+    missing = [var for var, value in required.items() if not value]
     if missing:
         print(
             f"[ERROR] Missing required environment variables: {', '.join(missing)}.\n"
@@ -43,7 +45,10 @@ def ensure_env() -> None:
         )
         sys.exit(1)
 
-    print(f"[INFO] Environment variables loaded from {env_path}")
+    if env_path.exists():
+        print(f"[INFO] Environment variables loaded from {env_path}")
+    else:
+        print("[INFO] Environment variables loaded from the active shell")
 
 
 def run_command(cmd: list[str]) -> None:
