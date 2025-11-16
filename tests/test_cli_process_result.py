@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import json
 import importlib
+import json
 from pathlib import Path
 
 cli_module = importlib.import_module("cloudflare_browser_render.cli")

@@ -20,7 +20,9 @@ def test_debug_flag_bubbles_exceptions(monkeypatch) -> None:
     monkeypatch.setitem(callback.__globals__, "render_content", boom)
 
     runner = CliRunner()
-    result = runner.invoke(cli_module.cli, ["--debug", "content", "https://example.com"])
+    result = runner.invoke(
+        cli_module.cli, ["--debug", "content", "https://example.com"]
+    )
 
     assert isinstance(result.exception, DummyError)
     assert result.exit_code != 0
