@@ -25,6 +25,7 @@ dev = [
   "pytest>=8.0.0",
   "pytest-cov>=4.1.0",
   "ruff>=0.6.9",
+  "pylint>=3.0.0",
 ]
 
 [tool.pdm.packages]
