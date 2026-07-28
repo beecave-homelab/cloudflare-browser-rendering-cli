@@ -25,32 +25,19 @@ jobs:
       - name: Lint (ruff check .)
         run: pdm run ruff check .
       
-      - name: Format Python source and tests
-        run: pdm run ruff format cloudflare_browser_render tests --check
+      - name: Format all maintained Python files
+        run: pdm run ruff format --check cloudflare_browser_render tests scripts
 
       - name: Run tests (pytest -q)
         run: pdm run pytest -q
 
       - name: Lint (pylint cloudflare_browser_render/)
         timeout-minutes: 5
-        run: |
-          set -e
-          OUTPUT=$(pdm run pylint cloudflare_browser_render/ || true)
-          echo "$OUTPUT"
-          SCORE=$(echo "$OUTPUT" | grep -oE 'Your code has been rated at [0-9.]+/10' | grep -oE '[0-9.]+' | head -1)
-          if (( $(echo "$SCORE <= 9.0" | bc -l) )); then
-            echo "❌ Pylint score for nedap_docs_proxy/ is $SCORE (must be > 9.0)"
-            exit 1
-          fi
+        run: pdm run pylint cloudflare_browser_render/
 
       - name: Lint (pylint tests/)
         timeout-minutes: 5
-        run: |
-          set -e
-          OUTPUT=$(pdm run pylint --disable=missing-module-docstring,missing-function-docstring,import-outside-toplevel,unknown-option-value tests/ || true)
-          echo "$OUTPUT"
-          SCORE=$(echo "$OUTPUT" | grep -oE 'Your code has been rated at [0-9.]+/10' | grep -oE '[0-9.]+' | head -1)
-          if (( $(echo "$SCORE <= 9.0" | bc -l) )); then
-            echo "❌ Pylint score for tests/ is $SCORE (must be > 9.0)"
-            exit 1
-          fi
+        run: >-
+          pdm run pylint
+          --disable=missing-module-docstring,missing-function-docstring
+          tests/

@@ -161,8 +161,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-pdm.lock
-
 .cursor/rules/*.mdc
 .github/PULL_REQUEST/*.md
 nedap-support-docs-links.md

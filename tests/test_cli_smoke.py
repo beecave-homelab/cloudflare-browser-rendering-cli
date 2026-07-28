@@ -9,6 +9,8 @@ Cloudflare API.
 
 from __future__ import annotations
 
+import importlib
+import pkgutil
 import types
 from collections.abc import Callable
 from typing import Any
@@ -60,7 +62,7 @@ class _EndpointStub:
     def with_raw_response(self):  # noqa: D401 – property name mirrors SDK
         return self
 
-    # pylint: disable=unused-argument – signature matches SDK.
+    # pylint: disable=unused-argument  # Signature matches the SDK.
     def create(self, *args, **kwargs):  # noqa: D401 – mirrors SDK
         return _Raw(self._factory())
 
@@ -91,9 +93,6 @@ def stub_client(monkeypatch):
     stub = types.SimpleNamespace(browser_rendering=browser_rendering)
 
     # Patch every renderer module's captured `_cf`.
-    import importlib
-    import pkgutil
-
     renderer_pkg = importlib.import_module("cloudflare_browser_render.renderers")
     for mod_info in pkgutil.iter_modules(renderer_pkg.__path__):
         module = importlib.import_module(

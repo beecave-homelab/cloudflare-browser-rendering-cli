@@ -7,10 +7,13 @@ traceback.
 
 from __future__ import annotations
 
+import importlib
+
 import pytest
 from click.testing import CliRunner
 
 # CLI entry-point
+import cloudflare_browser_render.cli as cli_module
 from cloudflare_browser_render.cli import cli
 
 
@@ -66,15 +69,11 @@ def test_cli_handles_errors_gracefully(
         raise DummyAPIError("boom")
 
     # monkeypatch.setattr() requires separating the module and attribute.
-    import importlib
-
     module_path, attr_name = patch_target.rsplit(".", 1)
     module = importlib.import_module(module_path)
     monkeypatch.setattr(module, attr_name, _raise_dummy, raising=True)
 
     # Also patch the reference already imported into cloudflare_browser_render.cli
-    import cloudflare_browser_render.cli as cli_module  # noqa: E402
-
     if hasattr(cli_module, attr_name):
         monkeypatch.setattr(cli_module, attr_name, _raise_dummy, raising=True)
 

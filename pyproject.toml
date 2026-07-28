@@ -86,6 +86,10 @@ convention = "google"
 [tool.ruff.lint.isort]
 known-first-party = ["cloudflare_browser_render"]
 
+[tool.pylint.main]
+# Preserve the existing >9.0 quality gate using Pylint's native threshold.
+fail-under = 9.01
+
 [tool.pytest.ini_options]
 minversion = "8.0"
 addopts = [
