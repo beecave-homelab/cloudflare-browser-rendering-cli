@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from .env_loader import load_project_env
 
-_ENV = load_project_env()
+_ENV = load_project_env().env
 
 CLOUDFLARE_API_TOKEN: str = _ENV.get("CLOUDFLARE_API_TOKEN", "")
 CLOUDFLARE_ACCOUNT_ID: str = _ENV.get("CLOUDFLARE_ACCOUNT_ID", "")
